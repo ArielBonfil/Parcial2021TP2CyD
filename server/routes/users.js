@@ -67,12 +67,10 @@ const userRoutes = (app, fs) => {
   });
   app.get("/users/:id", (req, res) => {
     readFile((data) => {
-      const userId = req.params["id"];
-      const findUserById = (userId) => {
-        const u = data.find((user) => user.id === userId);
-        return u;
-      };
-      res.send(findUserById(userId));
+      const { id: userId } = req.params;
+      const user = data.find((u) => u.id == userId);
+      if (!user) res.status(404).json({ message: "no encotrado" });
+      res.json(user);
     }, true);
   });
 };
